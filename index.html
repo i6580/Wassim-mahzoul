@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0876c9"><title>Ilyes Water</title>
+<style>
+:root{--blue:#0876c9;--navy:#07528c;--bg:#f2f7fb;--ink:#17324a;--muted:#71869a;--line:#e2edf5;--green:#15966b;--red:#d94b4b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Tahoma,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#0876c9,#064b83);color:white;padding:20px 17px 25px;border-radius:0 0 22px 22px}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:bold}.drop{background:#ffffff25;border-radius:14px;padding:9px;font-size:25px}
+header p{margin:7px 0 0;color:#d9efff;font-size:12px}
+nav{display:flex;gap:7px;padding:10px;overflow:auto;background:white;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #17324a0c}
+nav button{border:0;background:#edf5fb;color:#42627c;border-radius:12px;padding:10px 13px;white-space:nowrap;font-weight:bold}
+nav button.active{background:var(--blue);color:white}
+main{padding:12px;max-width:760px;margin:auto}.page{display:none}.page.active{display:block}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card,.panel{background:white;border-radius:16px;padding:15px;box-shadow:0 3px 12px #17324a0a;margin-bottom:11px}
+.stat small{color:var(--muted);display:block;font-size:12px}.stat strong{font-size:22px;display:block;margin-top:8px}.stat span{font-size:19px}
+h2{font-size:18px;margin:8px 0 13px}h3{font-size:15px;margin:0 0 10px}
+label{display:block;font-size:12px;color:#587188;margin:10px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fbfdff;font:inherit;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+button.primary,.primary{background:var(--blue);color:white;border:0;border-radius:11px;padding:12px 15px;font-weight:bold;width:100%;margin-top:12px}
+button.secondary{background:#eaf4fc;color:var(--navy);border:0;border-radius:10px;padding:9px 12px;font-weight:bold}
+button.danger{background:#fff0f0;color:var(--red);border:0;border-radius:10px;padding:8px}
+.row{display:flex;gap:9px}.row>*{flex:1;min-width:0}.item{border-bottom:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:8px;align-items:center}.item:last-child{border:0}
+.muted{color:var(--muted);font-size:12px}.money{font-weight:bold;color:var(--navy)}.pill{font-size:11px;padding:5px 8px;border-radius:20px;background:#e9f7f1;color:var(--green);white-space:nowrap}.debt{background:#fff1e8;color:#c46a24}
+.empty{text-align:center;color:var(--muted);padding:20px;font-size:13px}.actions{display:flex;gap:7px;flex-wrap:wrap}.actions button{width:auto;margin:0}
+footer{text-align:center;color:#94a8b8;font-size:11px;padding:18px}
+</style></head><body>
+<header><div class="brand"><span class="drop">💧</span><span>Ilyes Water</span></div><p>بيع المياه • التوصيل • إدارة الزبائن والديون</p></header>
+<nav id="nav">
+<button class="active" data-page="home">الرئيسية</button><button data-page="sale">＋ بيع جديد</button><button data-page="orders">الطلبات</button><button data-page="debts">الديون</button><button data-page="products">المنتجات</button><button data-page="shop">طلب زبون</button>
+</nav>
+<main>
+<section id="home" class="page active">
+<h2>لوحة التحكم</h2><div class="cards">
+<div class="card stat"><small>المبيعات المسجلة</small><strong id="salesTotal">0 DA</strong></div>
+<div class="card stat"><small>المبالغ المحصّلة</small><strong id="paidTotal">0 DA</strong></div>
+<div class="card stat"><small>الديون المتبقية</small><strong id="debtTotal">0 DA</strong></div>
+<div class="card stat"><small>عدد الطلبات</small><strong id="orderCount">0</strong></div></div>
+<div class="panel"><h3>آخر العمليات</h3><div id="recent" class="empty">لا توجد عمليات بعد</div></div>
+<div class="panel"><h3>اختصارات</h3><div class="actions"><button class="secondary" onclick="go('sale')">＋ تسجيل عملية بيع</button><button class="secondary" onclick="go('debts')">تسجيل دفعة دين</button></div></div>
+</section>
+<section id="sale" class="page"><h2>تسجيل عملية بيع جديدة</h2><div class="panel">
+<label>اسم الزبون</label><input id="sName" placeholder="اسم الزبون">
+<div class="row"><div><label>رقم الهاتف</label><input id="sPhone" inputmode="tel" placeholder="اختياري"></div><div><label>الكمية (صندوق)</label><input id="sQty" type="number" min="1" value="1"></div></div>
+<label>المنتج</label><select id="sProduct"></select>
+<div class="row"><div><label>المبلغ الإجمالي (DA)</label><input id="sTotal" type="number" min="0" placeholder="مثلاً 1200"></div><div><label>المبلغ المدفوع (DA)</label><input id="sPaid" type="number" min="0" value="0"></div></div>
+<label>العنوان / ملاحظة</label><input id="sAddress" placeholder="عنوان التوصيل أو ملاحظة">
+<p class="muted" id="saleDebt">الدين المتبقي: 0 DA</p><button class="primary" onclick="saveSale()">حفظ عملية البيع</button>
+</div></section>
+<section id="orders" class="page"><h2>الطلبات والمبيعات</h2><div class="panel"><div id="orderList" class="empty">لا توجد طلبات بعد</div></div></section>
+<section id="debts" class="page"><h2>الزبائن والديون</h2><div class="panel"><label>ابحث باسم الزبون</label><input id="debtSearch" placeholder="اكتب اسم الزبون..." oninput="renderDebts()"><div id="debtList" class="empty">لا توجد ديون</div></div></section>
+<section id="products" class="page"><h2>إدارة المنتجات والأسعار</h2><div class="panel"><div id="productList"></div></div><div class="panel"><h3>إضافة منتج</h3><label>اسم المنتج</label><input id="pName" placeholder="مثلاً ماء كبير - صندوق 6 قارورات"><div class="row"><div><label>السعر (DA)</label><input id="pPrice" type="number" min="0" placeholder="السعر"></div><div><label>المخزون (صندوق)</label><input id="pStock" type="number" min="0" value="0"></div></div><button class="primary" onclick="addProduct()">إضافة المنتج</button></div></section>
+<section id="shop" class="page"><h2>طلب المياه مع التوصيل</h2><div class="panel"><h3>سلة المشتريات</h3><div id="shopProducts"></div><div class="item"><b>المجموع</b><strong id="cartTotal">0 DA</strong></div><label>اسم الزبون</label><input id="cName" placeholder="اسمك الكامل"><label>رقم الهاتف</label><input id="cPhone" inputmode="tel" placeholder="رقم الهاتف"><label>عنوان التوصيل</label><textarea id="cAddress" rows="2" placeholder="البلدية، الحي، الشارع..."></textarea><label>طريقة الدفع</label><input value="نقداً عند الاستلام" disabled><button class="primary" onclick="checkout()">تأكيد الطلب</button><p class="muted">الدفع نقداً عند استلام المياه.</p></div></section>
+</main><footer>Ilyes Water • جميع المبالغ بالدينار الجزائري DA</footer>
+<script>
+const $=id=>document.getElementById(id), money=n=>(Number(n)||0).toLocaleString('fr-DZ')+' DA';
+let products=JSON.parse(localStorage.getItem('iw_products')||'null')||[
+{id:1,name:'ماء كبير - صندوق 6 قارورات',price:0,stock:0},
+{id:2,name:'ماء صغير - صندوق 8 قارورات',price:0,stock:0}
+];
+let sales=JSON.parse(localStorage.getItem('iw_sales')||'[]'), payments=JSON.parse(localStorage.getItem('iw_payments')||'[]'), cart={};
+function persist(){localStorage.setItem('iw_products',JSON.stringify(products));localStorage.setItem('iw_sales',JSON.stringify(sales));localStorage.setItem('iw_payments',JSON.stringify(payments));}
+function go(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));render();}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function render(){
+$('salesTotal').textContent=money(sales.reduce((a,s)=>a+s.total,0));
+$('paidTotal').textContent=money(sales.reduce((a,s)=>a+s.paid,0));
+$('debtTotal').textContent=money(sales.reduce((a,s)=>a+s.debt,0));
+$('orderCount').textContent=sales.length;
+$('recent').innerHTML=sales.length?sales.slice(-4).reverse().map(s=>`<div class="item"><div><b>${esc(s.name)}</b><div class="muted">${s.product} • ${s.date}</div></div><b>${money(s.total)}</b></div>`).join(''):'لا توجد عمليات بعد';
+$('sProduct').innerHTML=products.map(p=>`<option value="${p.id}">${esc(p.name)} — ${money(p.price)}</option>`).join('');
+renderOrders();renderDebts();renderProducts();renderShop();
+}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function saveSale(){
+let name=$('sName').value.trim(),prod=products.find(p=>p.id==$('sProduct').value),qty=Math.max(1,Number($('sQty').value)||1),total=Number($('sTotal').value),paid=Number($('sPaid').value)||0;
+if(!name||!prod||!Number.isFinite(total)||total<=0||paid<0||paid>total){alert('أدخل اسم الزبون والمبلغ الصحيح. يجب ألا يتجاوز المدفوع المبلغ الإجمالي.');return;}
+sales.push({id:Date.now(),name,phone:$('sPhone').value,product:prod.name,qty,total,paid,debt:total-paid,address:$('sAddress').value,date:new Date().toLocaleString('ar-DZ'),status:'مكتمل'});
+prod.stock=Math.max(0,prod.stock-qty);persist();$('sName').value='';$('sPhone').value='';$('sTotal').value='';$('sPaid').value='0';$('sAddress').value='';alert('تم حفظ عملية البيع وحساب الدين المتبقي.');go('home');
+}
+function renderOrders(){$('orderList').innerHTML=sales.length?sales.slice().reverse().map(s=>`<div class="item"><div><b>${esc(s.name)}</b><div class="muted">${esc(s.product)} × ${s.qty} • ${esc(s.date)}</div><div class="muted">مدفوع ${money(s.paid)} — متبقٍ ${money(s.debt)}</div></div><b>${money(s.total)}</b></div>`).join(''):'لا توجد طلبات بعد';}
+function renderDebts(){
+let q=($('debtSearch')?.value||'').toLowerCase(), debtSales=sales.filter(s=>s.debt>0&&s.name.toLowerCase().includes(q));
+$('debtList').innerHTML=debtSales.length?debtSales.map(s=>`<div class="item"><div><b>${esc(s.name)}</b><div class="muted">${esc(s.phone||'بدون هاتف')} • الإجمالي ${money(s.total)}</div><span class="pill debt">الدين: ${money(s.debt)}</span></div><button class="secondary" onclick="recordPayment(${s.id})">تسجيل دفعة</button></div>`).join(''):'لا توجد ديون مستحقة';
+}
+function recordPayment(id){let s=sales.find(x=>x.id===id),v=Number(prompt('الدين المتبقي '+money(s.debt)+'\\nأدخل مبلغ الدفعة بالدينار:'));if(!v||v<=0||v>s.debt){alert('المبلغ غير صحيح.');return;}s.paid+=v;s.debt-=v;payments.push({saleId:id,name:s.name,amount:v,date:new Date().toLocaleString('ar-DZ')});persist();render();}
+function renderProducts(){$('productList').innerHTML=products.map(p=>`<div class="item"><div><b>${esc(p.name)}</b><div class="muted">${money(p.price)} • المخزون: ${p.stock} صندوق</div></div><button class="secondary" onclick="editProduct(${p.id})">تعديل</button></div>`).join('');}
+function addProduct(){let name=$('pName').value.trim(),price=Number($('pPrice').value),stock=Number($('pStock').value)||0;if(!name||price<0||!Number.isFinite(price)){alert('أدخل اسم المنتج والسعر.');return;}products.push({id:Date.now(),name,price,stock});persist();$('pName').value='';$('pPrice').value='';$('pStock').value='0';render();}
+function editProduct(id){let p=products.find(x=>x.id===id),price=prompt('السعر الجديد بالدينار:',p.price);if(price===null)return;let stock=prompt('المخزون الجديد بالصندوق:',p.stock);if(stock===null)return;p.price=Math.max(0,Number(price)||0);p.stock=Math.max(0,Number(stock)||0);persist();render();}
+function renderShop(){$('shopProducts').innerHTML=products.map(p=>`<div class="item"><div><b>${esc(p.name)}</b><div class="muted">${money(p.price)} • المتوفر ${p.stock}</div></div><div class="actions"><button class="secondary" onclick="changeCart(${p.id},-1)">−</button><b>${cart[p.id]||0}</b><button class="secondary" onclick="changeCart(${p.id},1)">＋</button></div></div>`).join('');$('cartTotal').textContent=money(products.reduce((a,p)=>a+(cart[p.id]||0)*p.price,0));}
+function changeCart(id,d){let p=products.find(x=>x.id===id);cart[id]=Math.max(0,(cart[id]||0)+d);if(cart[id]>p.stock)cart[id]=p.stock;renderShop();}
+function checkout(){let name=$('cName').value.trim(),phone=$('cPhone').value.trim(),address=$('cAddress').value.trim(),items=products.filter(p=>(cart[p.id]||0)>0);if(!name||!phone||!address||!items.length){alert('أكمل الاسم والهاتف والعنوان واختر منتجاً واحداً على الأقل.');return;}let total=items.reduce((a,p)=>a+(cart[p.id]||0)*p.price,0),desc=items.map(p=>p.name+' × '+cart[p.id]).join('، ');sales.push({id:Date.now(),name,phone,product:desc,qty:items.reduce((a,p)=>a+cart[p.id],0),total,paid:0,debt:total,address,date:new Date().toLocaleString('ar-DZ'),status:'طلب جديد - الدفع عند الاستلام'});items.forEach(p=>p.stock=Math.max(0,p.stock-cart[p.id]));cart={};persist();alert('تم تسجيل طلبك. الدفع نقداً عند الاستلام.');$('cName').value='';$('cPhone').value='';$('cAddress').value='';go('orders');}
+$('sTotal').addEventListener('input',()=>{$('saleDebt').textContent='الدين المتبقي: '+money(Math.max(0,Number($('sTotal').value||0)-Number($('sPaid').value||0)));});
+$('sPaid').addEventListener('input',()=>{$('saleDebt').textContent='الدين المتبقي: '+money(Math.max(0,Number($('sTotal').value||0)-Number($('sPaid').value||0)));});
+render();
+</script></body></html>
